@@ -15,14 +15,19 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @RequestMapping(value="/user", method = RequestMethod.GET)
     public List<User> listUser(){
         return userService.findAll();
     }
+    
 
-    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     public User create(@RequestBody User user){
+    	user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userService.save(user);
     }
 
